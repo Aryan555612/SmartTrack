@@ -18,16 +18,20 @@ initDB();
 app.use(cors());
 app.use(express.json());
 
-// Request path normalizer middleware for Vercel Serverless
+// Path normalizer middleware for Vercel Serverless Function routing
 app.use((req, res, next) => {
-  if (req.url.startsWith('/api/')) {
-    const stripped = req.url.slice(4);
-    req.url = stripped.startsWith('/') ? stripped : '/' + stripped;
+  let url = req.url;
+  if (url.startsWith('/api')) {
+    url = url.substring(4);
   }
+  if (!url || !url.startsWith('/')) {
+    url = '/' + url;
+  }
+  req.url = url;
   next();
 });
 
-// Routes
+// Mounted Routes
 app.use('/auth', authRoutes);
 app.use('/tasks', taskRoutes);
 app.use('/users', userRoutes);
@@ -38,12 +42,13 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/messages', messageRoutes);
 
-// Health check endpoint
-app.get('/health', (req, res) => {
-  res.json({ status: 'healthy', app: 'SmartTrack CRM API' });
-});
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'healthy', app: 'SmartTrack CRM API' });
+// Health check endpoints
+app.get(['/health', '/api/health', '/'], (req, res) => {
+  res.json({
+    status: 'healthy',
+    app: 'SmartTrack CRM API (Vercel Serverless)',
+    timestamp: new Date().toISOString()
+  });
 });
 
 export default app;

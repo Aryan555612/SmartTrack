@@ -327,19 +327,35 @@ const defaultData = {
   ]
 };
 
+let inMemoryDB = null;
+
 // Ensure db file exists or force re-seed if user count is not 16 (15 employees + 1 owner)
 export const initDB = (force = false) => {
-  if (force || !fs.existsSync(DB_FILE)) {
-    fs.writeFileSync(DB_FILE, JSON.stringify(defaultData, null, 2), 'utf-8');
+  if (process.env.VERCEL) {
+    if (!inMemoryDB || force) {
+      inMemoryDB = JSON.parse(JSON.stringify(defaultData));
+    }
+    return;
+  }
+  try {
+    if (force || !fs.existsSync(DB_FILE)) {
+      fs.writeFileSync(DB_FILE, JSON.stringify(defaultData, null, 2), 'utf-8');
+    }
+  } catch (e) {
+    console.error("FS Init error, using in-memory DB:", e);
+    inMemoryDB = JSON.parse(JSON.stringify(defaultData));
   }
 };
 
 export const getDB = () => {
+  if (process.env.VERCEL) {
+    if (!inMemoryDB) inMemoryDB = JSON.parse(JSON.stringify(defaultData));
+    return inMemoryDB;
+  }
   initDB();
   try {
     const content = fs.readFileSync(DB_FILE, 'utf-8');
     const parsed = JSON.parse(content);
-    // Only reset if the DB is fundamentally broken (no users array at all)
     if (!parsed.users || !Array.isArray(parsed.users)) {
       saveDB(defaultData);
       return defaultData;
@@ -347,11 +363,19 @@ export const getDB = () => {
     return parsed;
   } catch (err) {
     console.error("Error reading DB file, resetting to defaults", err);
-    saveDB(defaultData);
-    return defaultData;
+    if (!inMemoryDB) inMemoryDB = JSON.parse(JSON.stringify(defaultData));
+    return inMemoryDB;
   }
 };
 
 export const saveDB = (data) => {
-  fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf-8');
+  if (process.env.VERCEL) {
+    inMemoryDB = data;
+    return;
+  }
+  try {
+    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf-8');
+  } catch (e) {
+    inMemoryDB = data;
+  }
 };
