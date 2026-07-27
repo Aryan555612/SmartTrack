@@ -52,18 +52,25 @@ const BarChart = ({ data }) => {
 
 const LineChart = ({ data }) => {
   if (!data?.length) return <Empty label="No trend data" />;
-  const max = 50;
+  const maxVal = Math.max(...data.map(d => d.completed), 30);
+  const max = Math.ceil(maxVal * 1.2);
   const W = 560, H = 140, PX = 50;
-  const pts = data.map((d, i) => ({
-    x: PX + i * ((W - PX * 2) / (data.length - 1)),
-    y: H - 20 - ((d.completed / max) * (H - 40)),
-    ...d,
-  }));
+
+  const pts = data.map((d, i) => {
+    const rawY = H - 20 - ((d.completed / max) * (H - 45));
+    const clampedY = Math.max(16, Math.min(H - 24, rawY));
+    return {
+      x: PX + i * ((W - PX * 2) / (data.length - 1)),
+      y: clampedY,
+      ...d,
+    };
+  });
+
   const path = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
   const areaPath = `${path} L ${pts[pts.length-1].x} ${H-8} L ${pts[0].x} ${H-8} Z`;
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 140, overflow: 'visible' }}>
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 140, overflow: 'hidden' }}>
       <defs>
         <linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#0A84FF" stopOpacity="0.18" />
@@ -328,7 +335,7 @@ export const OwnerDashboard = () => {
           { week: 'Week 1', completed: 14, target: 12 },
           { week: 'Week 2', completed: 18, target: 15 },
           { week: 'Week 3', completed: 22, target: 20 },
-          { week: 'Week 4 (Current)', completed: 168, target: 25 }
+          { week: 'Week 4 (Current)', completed: 25, target: 25 }
         ];
 
         const activeAlertsList = (d.activeAlerts && d.activeAlerts.length > 0) ? d.activeAlerts : fallbackAlerts;
