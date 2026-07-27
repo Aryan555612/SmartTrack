@@ -9,10 +9,11 @@ import {
 import { apiFetch } from '../utils/api';
 
 const DEMO_EMPLOYEES = [
-  { id: 'usr_emp_1',  employeeId: 'EMP-101', name: 'Alex Rivera',   email: 'alex@smarttrack.com',   department: 'Development' },
   { id: 'usr_emp_2',  employeeId: 'EMP-102', name: 'David Chen',    email: 'david@smarttrack.com',  department: 'Development' },
   { id: 'usr_emp_7',  employeeId: 'EMP-107', name: 'James Wilson',  email: 'james@smarttrack.com',  department: 'Sales' },
   { id: 'usr_emp_12', employeeId: 'EMP-112', name: 'Maria Garcia',  email: 'maria@smarttrack.com',  department: 'Support' },
+  { id: 'usr_emp_15', employeeId: 'EMP-115', name: 'Daniel Martinez', email: 'daniel@smarttrack.com', department: 'Support' },
+  { id: 'usr_emp_1',  employeeId: 'EMP-101', name: 'Alex Rivera',   email: 'alex@smarttrack.com',   department: 'Development' },
 ];
 
 const DEPT_COLOR = { Development: '#0A84FF', Sales: '#30D158', Support: '#FF9500' };
