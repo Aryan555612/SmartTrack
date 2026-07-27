@@ -1,8 +1,10 @@
 // Mock Backend Engine for Seamless Client-Side Fallback on Vercel
+// Configured strictly with Photo 3 and Photo 4 Dataset
 
 const MALE_OWNER_AVATAR = 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80';
 
-const EXACT_EMPLOYEES = [
+// Exact 15 Employees from Photo 4
+const PHOTO_EMPLOYEES = [
   { id: "usr_emp_1", employeeId: "EMP-101", name: "Alex Rivera", email: "alex@smarttrack.com", role: "employee", title: "Senior Frontend Engineer", department: "Development", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80", tasksAssigned: 4, tasksCompleted: 3, efficiencyRate: 75, status: "On Track" },
   { id: "usr_emp_2", employeeId: "EMP-102", name: "David Chen", email: "david.c@smarttrack.com", role: "employee", title: "Lead Backend Developer", department: "Development", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80", tasksAssigned: 5, tasksCompleted: 5, efficiencyRate: 100, status: "On Track" },
   { id: "usr_emp_3", employeeId: "EMP-103", name: "Omar Al-Fayed", email: "omar@smarttrack.com", role: "employee", title: "DevOps & Infrastructure", department: "Development", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80", tasksAssigned: 4, tasksCompleted: 1, efficiencyRate: 25, status: "Behind", hasAlert: true, alertReason: "Attention needed: Omar" },
@@ -53,7 +55,7 @@ export async function handleMockApi(endpoint, options = {}) {
       return createRes({ token: `mock_token_owner_${Date.now()}`, user: ownerUser });
     }
 
-    const emp = EXACT_EMPLOYEES.find(e => e.email.toLowerCase() === inputEmail) || EXACT_EMPLOYEES[0];
+    const emp = PHOTO_EMPLOYEES.find(e => e.email.toLowerCase() === inputEmail) || PHOTO_EMPLOYEES[0];
     return createRes({ token: `mock_token_emp_${Date.now()}`, user: emp });
   }
 
@@ -73,35 +75,38 @@ export async function handleMockApi(endpoint, options = {}) {
     return createRes({ message: "Registration successful!", token: `mock_token_reg_${Date.now()}`, user: newUser });
   }
 
-  // 3. GET /api/users/analytics
+  // 3. GET /api/users/analytics (Photo 3 and Photo 4 Dataset)
   if (endpoint.includes('/users/analytics')) {
     const activeAlerts = [
-      { id: "usr_emp_3", employeeId: "EMP-103", name: "Omar Al-Fayed", department: "Development", efficiencyRate: 25, message: "Attention needed: Omar", reason: "Efficiency dropped to 25% (< 40% threshold).", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80", fullUser: EXACT_EMPLOYEES[2] },
-      { id: "usr_emp_6", employeeId: "EMP-106", name: "Priya Patel", department: "Development", efficiencyRate: 33, message: "Attention needed: Priya", reason: "Efficiency dropped to 33% (< 40% threshold).", avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80", fullUser: EXACT_EMPLOYEES[5] },
-      { id: "usr_emp_9", employeeId: "EMP-109", name: "Vikram Malhotra", department: "Sales", efficiencyRate: 40, message: "Attention needed: Vikram", reason: "Efficiency dropped to 40% (< 50% threshold).", avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80", fullUser: EXACT_EMPLOYEES[8] },
-      { id: "usr_emp_11", employeeId: "EMP-111", name: "Sameer Khan", department: "Sales", efficiencyRate: 33, message: "Attention needed: Sameer", reason: "Efficiency dropped to 33% (< 40% threshold).", avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80", fullUser: EXACT_EMPLOYEES[10] },
-      { id: "usr_emp_14", employeeId: "EMP-114", name: "Neha Gupta", department: "Support", efficiencyRate: 25, message: "Attention needed: Neha", reason: "Efficiency dropped to 25% (< 40% threshold).", avatar: "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=150&auto=format&fit=crop&q=80", fullUser: EXACT_EMPLOYEES[13] }
+      { id: "usr_emp_3", employeeId: "EMP-103", name: "Omar Al-Fayed", department: "Development", efficiencyRate: 25, message: "Attention needed: Omar", reason: "Efficiency dropped to 25% (< 40% threshold).", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80", fullUser: PHOTO_EMPLOYEES[2] },
+      { id: "usr_emp_6", employeeId: "EMP-106", name: "Priya Patel", department: "Development", efficiencyRate: 33, message: "Attention needed: Priya", reason: "Efficiency dropped to 33% (< 40% threshold).", avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80", fullUser: PHOTO_EMPLOYEES[5] },
+      { id: "usr_emp_9", employeeId: "EMP-109", name: "Vikram Malhotra", department: "Sales", efficiencyRate: 40, message: "Attention needed: Vikram", reason: "Efficiency dropped to 40% (< 50% threshold).", avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80", fullUser: PHOTO_EMPLOYEES[8] },
+      { id: "usr_emp_11", employeeId: "EMP-111", name: "Sameer Khan", department: "Sales", efficiencyRate: 33, message: "Attention needed: Sameer", reason: "Efficiency dropped to 33% (< 40% threshold).", avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80", fullUser: PHOTO_EMPLOYEES[10] },
+      { id: "usr_emp_14", employeeId: "EMP-114", name: "Neha Gupta", department: "Support", efficiencyRate: 25, message: "Attention needed: Neha", reason: "Efficiency dropped to 25% (< 40% threshold).", avatar: "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=150&auto=format&fit=crop&q=80", fullUser: PHOTO_EMPLOYEES[13] }
     ];
 
+    // Top 10 Bar Chart from Photo 3: David (5), James (5), Maria (5), Elena (4), Ananya (4), Daniel (4), Alex (3), Rohan (3), Marcus (3), Kevin (3)
     const top10Completed = [
-      { name: 'Alex', fullId: 'EMP-101', tasksCompleted: 14, tasksAssigned: 15, department: 'Development' },
-      { name: 'Sarah', fullId: 'EMP-102', tasksCompleted: 18, tasksAssigned: 19, department: 'Development' },
-      { name: 'Omar', fullId: 'EMP-103', tasksCompleted: 2, tasksAssigned: 8, department: 'Development' },
-      { name: 'Elena', fullId: 'EMP-104', tasksCompleted: 11, tasksAssigned: 12, department: 'Development' },
-      { name: 'Marcus', fullId: 'EMP-105', tasksCompleted: 13, tasksAssigned: 14, department: 'Development' },
-      { name: 'Priya', fullId: 'EMP-106', tasksCompleted: 5, tasksAssigned: 11, department: 'Development' },
-      { name: 'James', fullId: 'EMP-107', tasksCompleted: 22, tasksAssigned: 22, department: 'Sales' },
-      { name: 'Aisha', fullId: 'EMP-108', tasksCompleted: 16, tasksAssigned: 17, department: 'Sales' },
-      { name: 'Vikram', fullId: 'EMP-109', tasksCompleted: 4, tasksAssigned: 10, department: 'Sales' },
-      { name: 'Chloe', fullId: 'EMP-110', tasksCompleted: 15, tasksAssigned: 16, department: 'Sales' }
+      { name: 'David', fullId: 'EMP-102', tasksCompleted: 5, tasksAssigned: 5, department: 'Development' },
+      { name: 'James', fullId: 'EMP-107', tasksCompleted: 5, tasksAssigned: 5, department: 'Sales' },
+      { name: 'Maria', fullId: 'EMP-112', tasksCompleted: 5, tasksAssigned: 5, department: 'Support' },
+      { name: 'Elena', fullId: 'EMP-104', tasksCompleted: 4, tasksAssigned: 5, department: 'Development' },
+      { name: 'Ananya', fullId: 'EMP-108', tasksCompleted: 4, tasksAssigned: 4, department: 'Sales' },
+      { name: 'Daniel', fullId: 'EMP-115', tasksCompleted: 4, tasksAssigned: 4, department: 'Support' },
+      { name: 'Alex', fullId: 'EMP-101', tasksCompleted: 3, tasksAssigned: 4, department: 'Development' },
+      { name: 'Rohan', fullId: 'EMP-105', tasksCompleted: 3, tasksAssigned: 4, department: 'Development' },
+      { name: 'Marcus', fullId: 'EMP-110', tasksCompleted: 3, tasksAssigned: 4, department: 'Sales' },
+      { name: 'Kevin', fullId: 'EMP-113', tasksCompleted: 3, tasksAssigned: 4, department: 'Support' }
     ];
 
+    // Donut Chart from Photo 3: 45 Tasks (Dev 38%, Sales 33%, Support 29%)
     const departmentDistribution = [
       { name: "Development", completed: 17, assigned: 25 },
       { name: "Sales", completed: 15, assigned: 21 },
       { name: "Support", completed: 13, assigned: 17 }
     ];
 
+    // Weekly Line Chart from Photo 3: W1=14, W2=18, W3=22, W4=45
     const weeklyTrend = [
       { week: 'Week 1', completed: 14, target: 12 },
       { week: 'Week 2', completed: 18, target: 15 },
@@ -124,10 +129,10 @@ export async function handleMockApi(endpoint, options = {}) {
       departmentDistribution,
       weeklyTrend,
       leaderboards: {
-        topPerformers: EXACT_EMPLOYEES.filter(e => e.efficiencyRate >= 80).slice(0, 3),
-        needsAttention: EXACT_EMPLOYEES.filter(e => e.hasAlert).slice(0, 3)
+        topPerformers: PHOTO_EMPLOYEES.filter(e => e.efficiencyRate >= 80).slice(0, 3),
+        needsAttention: PHOTO_EMPLOYEES.filter(e => e.hasAlert).slice(0, 3)
       },
-      employees: EXACT_EMPLOYEES
+      employees: PHOTO_EMPLOYEES
     };
 
     return createRes(analyticsData);
