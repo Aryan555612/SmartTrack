@@ -18,20 +18,32 @@ initDB();
 app.use(cors());
 app.use(express.json());
 
+// Request path normalizer middleware for Vercel Serverless
+app.use((req, res, next) => {
+  if (req.url.startsWith('/api/')) {
+    const stripped = req.url.slice(4);
+    req.url = stripped.startsWith('/') ? stripped : '/' + stripped;
+  }
+  next();
+});
+
 // Routes
+app.use('/auth', authRoutes);
+app.use('/tasks', taskRoutes);
+app.use('/users', userRoutes);
+app.use('/messages', messageRoutes);
+
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/messages', messageRoutes);
 
 // Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ status: 'healthy', app: 'SmartTrack CRM API' });
+});
 app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'healthy',
-    app: 'SmartTrack CRM API (Vercel Serverless)',
-    version: '1.0.0',
-    timestamp: new Date().toISOString()
-  });
+  res.json({ status: 'healthy', app: 'SmartTrack CRM API' });
 });
 
 export default app;

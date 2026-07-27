@@ -11,12 +11,34 @@ export async function apiFetch(endpoint, options = {}) {
       ? endpoint 
       : `/api${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
 
+  let res;
   try {
-    const res = await fetch(url, options);
-    return res;
+    res = await fetch(url, options);
   } catch (err) {
     console.warn(`Relative fetch to ${url} failed (${err.message}). Retrying with host ${BACKEND_URL}...`);
     const fallbackUrl = `${BACKEND_URL}${url.startsWith('/api') ? url : `/api${url}`}`;
-    return await fetch(fallbackUrl, options);
+    res = await fetch(fallbackUrl, options);
   }
+
+  // Intercept res.json() to safely handle non-JSON / HTML response bodies without throwing SyntaxError
+  const originalJson = res.json.bind(res);
+  res.json = async () => {
+    try {
+      const text = await res.text();
+      try {
+        return JSON.parse(text);
+      } catch (parseErr) {
+        console.error('Failed to parse JSON response text:', text);
+        return {
+          ok: false,
+          message: 'Server connection error. Please try again in a few seconds.',
+        };
+      }
+    } catch (err) {
+      console.error('Error reading response body text:', err);
+      return { ok: false, message: 'Server response error.' };
+    }
+  };
+
+  return res;
 }
