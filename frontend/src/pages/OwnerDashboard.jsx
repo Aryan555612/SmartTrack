@@ -313,22 +313,22 @@ export const OwnerDashboard = () => {
         ];
 
         const fallbackTop10 = [
-          { name: 'David K.', fullId: 'EMP-301', tasksCompleted: 5, tasksAssigned: 6, department: 'Support' },
-          { name: 'James W.', fullId: 'EMP-201', tasksCompleted: 5, tasksAssigned: 5, department: 'Sales' },
-          { name: 'Maria G.', fullId: 'EMP-302', tasksCompleted: 5, tasksAssigned: 5, department: 'Support' },
-          { name: 'Elena R.', fullId: 'EMP-104', tasksCompleted: 4, tasksAssigned: 4, department: 'Development' },
-          { name: 'Aisha K.', fullId: 'EMP-202', tasksCompleted: 4, tasksAssigned: 4, department: 'Sales' },
-          { name: 'Daniel C.', fullId: 'EMP-102', tasksCompleted: 4, tasksAssigned: 4, department: 'Development' },
-          { name: 'Alex R.', fullId: 'EMP-101', tasksCompleted: 3, tasksAssigned: 3, department: 'Development' },
-          { name: 'Chloe B.', fullId: 'EMP-204', tasksCompleted: 3, tasksAssigned: 3, department: 'Sales' },
-          { name: 'Marcus V.', fullId: 'EMP-105', tasksCompleted: 3, tasksAssigned: 3, department: 'Development' },
-          { name: 'Lucas S.', fullId: 'EMP-303', tasksCompleted: 3, tasksAssigned: 3, department: 'Support' }
+          { name: 'Alex', fullId: 'EMP-101', tasksCompleted: 14, tasksAssigned: 15, department: 'Development' },
+          { name: 'Sarah', fullId: 'EMP-102', tasksCompleted: 18, tasksAssigned: 19, department: 'Development' },
+          { name: 'Omar', fullId: 'EMP-103', tasksCompleted: 2, tasksAssigned: 8, department: 'Development' },
+          { name: 'Elena', fullId: 'EMP-104', tasksCompleted: 11, tasksAssigned: 12, department: 'Development' },
+          { name: 'Marcus', fullId: 'EMP-105', tasksCompleted: 13, tasksAssigned: 14, department: 'Development' },
+          { name: 'Priya', fullId: 'EMP-106', tasksCompleted: 5, tasksAssigned: 11, department: 'Development' },
+          { name: 'James', fullId: 'EMP-107', tasksCompleted: 22, tasksAssigned: 22, department: 'Sales' },
+          { name: 'Aisha', fullId: 'EMP-108', tasksCompleted: 16, tasksAssigned: 17, department: 'Sales' },
+          { name: 'Vikram', fullId: 'EMP-109', tasksCompleted: 4, tasksAssigned: 10, department: 'Sales' },
+          { name: 'Chloe', fullId: 'EMP-110', tasksCompleted: 15, tasksAssigned: 16, department: 'Sales' }
         ];
 
         const fallbackDeptDist = [
-          { name: 'Development', completed: 63, assigned: 81 },
-          { name: 'Sales', completed: 55, assigned: 68 },
-          { name: 'Support', completed: 50, assigned: 58 }
+          { name: 'Development', completed: 17, assigned: 25 },
+          { name: 'Sales', completed: 15, assigned: 21 },
+          { name: 'Support', completed: 13, assigned: 17 }
         ];
 
         const fallbackWeeklyTrend = [
