@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { Login } from './pages/Login';
@@ -18,7 +18,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <BrowserRouter>
+        <Router>
           <Routes>
             <Route path="/login"   element={<Login />} />
             <Route path="/pricing" element={<Landing />} />
@@ -43,7 +43,7 @@ export default function App() {
 
             <Route path="*" element={<DefaultRedirect />} />
           </Routes>
-        </BrowserRouter>
+        </Router>
       </AuthProvider>
     </ThemeProvider>
   );
